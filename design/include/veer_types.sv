@@ -188,6 +188,8 @@ typedef struct packed {
 
 
 typedef struct packed {
+                       // MINU Instruction
+                       logic minu;
                        logic valid;
                        logic land;
                        logic lor;
@@ -240,6 +242,10 @@ typedef struct packed {
                       } lsu_error_pkt_t;
 
 typedef struct packed {
+                       // SPARROW Instruction
+                       logic sprw;
+                       // MINU Instruction
+                       logic minu;
                        logic alu;
                        logic rs1;
                        logic rs2;
@@ -294,6 +300,12 @@ typedef struct packed {
 
 
 typedef struct packed {
+                       // SPARROW Instruction
+                       logic sprw;
+                       // the current instruction
+                       // this will be useful when sprw is enabled
+                       logic [31:0] instr;
+
                        logic valid;
                        logic rs1_sign;
                        logic rs2_sign;
