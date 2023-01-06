@@ -20,6 +20,7 @@ $(error env var RV_ROOT does not point to a valid dir! Exiting!)
 endif
 
 TEST_CFLAGS = -g -O3 -funroll-all-loops
+clangABI = -mabi=ilp32 --target=riscv32
 ABI = -mabi=ilp32 -march=rv32imc
 
 # Allow snapshot override
@@ -70,7 +71,7 @@ OFILES = $(TEST).o
 VPATH = $(TEST_DIR) $(BUILD_DIR) $(TBDIR)
 TBFILES = $(TBDIR)/tb_top.sv $(TBDIR)/ahb_sif.sv
 
-defines = $(BUILD_DIR)/common_defines.vh ${RV_ROOT}/design/include/veer_types.sv
+defines = $(BUILD_DIR)/common_defines.vh ${RV_ROOT}/design/include/veer_types.sv ${RV_ROOT}/design/include/sparrow.sv
 includes = -I${RV_ROOT}/design/include -I${RV_ROOT}/design/lib  -I${BUILD_DIR}
 
 # CFLAGS for verilator generated Makefiles. Without -std=c++11 it complains for `auto` variables
@@ -179,7 +180,10 @@ program.hex: $(OFILES) $(LINK)
 
 
 %.o : %.c ${BUILD_DIR}/defines.h
-	$(GCC_PREFIX)-gcc -I${BUILD_DIR} ${TEST_CFLAGS} ${ABI} -nostdlib -c $< -o $@
+	#$(GCC_PREFIX)-gcc -I/opt/riscv/riscv64-unknown-elf/include -I${BUILD_DIR} ${TEST_CFLAGS} ${ABI} -nostdlib -c $< -o $@
+	# TODO: Here you probably just change the name of the compiler and you should be fine
+	/Users/czarkos/projects/tools/llvm-sparrow/build/bin/clang -I/opt/riscv/riscv64-unknown-elf/include -I${BUILD_DIR} ${TEST_CFLAGS} ${clangABI} -nostdlib -c $< -o $@
+	#clang -I${BUILD_DIR} ${TEST_CFLAGS} ${clangABI} -nostdlib -c $< -o $@
 endif
 endif
 
