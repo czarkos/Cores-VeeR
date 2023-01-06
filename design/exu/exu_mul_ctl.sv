@@ -115,8 +115,52 @@ module exu_mul_ctl
 
    // ----------------------- E3 Logic Stage -------------------------
 
-
    assign out[31:0]            = low_e3  ?  prod_e3[31:0]  :  prod_e3[63:32];
 
+   // ----------------------- SPARROW integration -------------------------
+
+   // registers that carry the bit that carries the information of whether
+   // SPARROW is enabled for the current stage or not
+   logic sprw_en_e1;
+   logic sprw_en_e2;
+   logic sprw_en_e3;
+
+   //logic sprw_bypass_e2;
+   //logic sprw_bypass_e3;
+
+   always_ff @(posedge clk) begin
+       if ((mp.valid | clk_override) & ~freeze & mp.sprw)
+           sprw_en_e1 <= 1'b1;
+       else
+           sprw_en_e1 <= 1'b0;
+   end
+   always_ff @(posedge clk) begin
+       sprw_en_e2 <= sprw_en_e1;
+       //sprw_bypass_e2 <= load_mul_rs1_bypass_e1 | load_mul_rs2_bypass_e1;
+   end
+   always_ff @(posedge clk) begin
+       sprw_en_e3 <= sprw_en_e2;
+       //sprw_bypass_e3 <= sprw_bypass_e2;
+   end
+
+   // here we will initialize SPARROW, and give it the correct inputs
+   // its output will be written in 'sprw_out'
+   // if 'sprw_en_e3' is high then we will take the output from SPARROW
+   logic [31:0] sprw_out;
+   logic [31:0] instr;
+   assign instr = (mp.sprw) ? mp.instr : 32'b00000000_00000000_00000000_00000000;
+
+   sprw_wrapper jack_wrapper (
+       .clk(clk & ~freeze),
+       .rstn(rst_l),
+       .holdn(~freeze),
+       .ra(a),
+       .rb(b),
+       .instr(instr),
+       //.bypass(sprw_bypass_e3),
+       .sprw_out(sprw_out)
+   );
+
+   assign out[31:0]            = (sprw_en_e3) ? sprw_out : ((low_e3)  ?  prod_e3[31:0]  :  prod_e3[63:32]);
 
 endmodule // exu_mul_ctl
