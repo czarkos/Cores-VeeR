@@ -1,6 +1,10 @@
 
 .definition
 
+sprw =    [.........................0001011]
+
+minu =    [0000101..........101.....0110011]
+
 add =     [0000000..........000.....0110011]
 addi =    [.................000.....0010011]
 
@@ -158,6 +162,8 @@ rv32i = {
 .output
 
 rv32i = {
+      sprw
+      minu
       alu
       rs1
       rs2
@@ -210,6 +216,10 @@ rv32i = {
 }
 
 .decode
+
+rv32i[sprw] = { mul rs1 rs2 rd sprw }
+
+rv32i[minu]   = { alu rs1 rs2 rd pm_alu minu }
 
 rv32i[mul]    = { mul rs1 rs2 rd low }
 rv32i[mulh]   = { mul rs1 rs2 rd rs1_sign rs2_sign }
