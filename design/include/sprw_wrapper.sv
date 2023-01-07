@@ -48,7 +48,11 @@ module sprw_wrapper(
         .sdo(sdo)  
     );
 
-    assign sprw_out = sdo.result;
+    logic [31:0] sprw_bypass_result;
+
+    assign sprw_bypass_result = sdo.s2bp;
+
+    //assign sprw_out = sdo.result;
     // assign sprw_out = (bypass) ? sdo.s2bp : sdo.result;
-    //assign sprw_out = sdo.s2bp;
+    assign sprw_out = sdo.s2bp;
 endmodule

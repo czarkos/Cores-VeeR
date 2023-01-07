@@ -125,22 +125,58 @@ module exu_mul_ctl
    logic sprw_en_e2;
    logic sprw_en_e3;
 
+   //logic mp_sprw_1;
+   //logic mp_sprw_2;
+
    //logic sprw_bypass_e2;
    //logic sprw_bypass_e3;
+
+    /*
+    always_ff @(posedge clk) begin
+        if(~freeze) begin
+            mp_sprw_1 <= mp.sprw;
+            mp_sprw_2 <= mp.sprw;
+        end
+    end
+    */
 
    always_ff @(posedge clk) begin
        if ((mp.valid | clk_override) & ~freeze & mp.sprw)
            sprw_en_e1 <= 1'b1;
+       else if(freeze & sprw_en_e1)
+           sprw_en_e1 <= 1'b1;
        else
            sprw_en_e1 <= 1'b0;
+       /*
+       if (mul_c1_e1_clken & mp.sprw)
+           sprw_en_e1 <= 1'b1;
+       else
+           sprw_en_e1 <= 0'b0;
+       */
    end
    always_ff @(posedge clk) begin
-       sprw_en_e2 <= sprw_en_e1;
-       //sprw_bypass_e2 <= load_mul_rs1_bypass_e1 | load_mul_rs2_bypass_e1;
+       if(~freeze)
+           sprw_en_e2 <= sprw_en_e1;
+       else
+           sprw_en_e2 <= 1'b0;
+       /*
+       if (mul_c1_e2_clken & mp_sprw_1)
+           sprw_en_e2 <= 1'b1;
+       else
+           sprw_en_e2 <= 0'b0;
+       */
    end
    always_ff @(posedge clk) begin
-       sprw_en_e3 <= sprw_en_e2;
-       //sprw_bypass_e3 <= sprw_bypass_e2;
+       if(~freeze)
+           sprw_en_e3 <= sprw_en_e2;
+       else
+           sprw_en_e3 <= 1'b0;
+       /*
+       if (mul_c1_e3_clken & mp_sprw_2)
+           sprw_en_e3 <= 1'b1;
+       else
+           sprw_en_e3 <= 0'b0;
+       */
    end
 
    // here we will initialize SPARROW, and give it the correct inputs
@@ -148,15 +184,38 @@ module exu_mul_ctl
    // if 'sprw_en_e3' is high then we will take the output from SPARROW
    logic [31:0] sprw_out;
    logic [31:0] instr;
+   logic [31:0] instr_1;
+   logic [31:0] instr_2;
+   logic [31:0] sprw_a;
+   logic [31:0] sprw_b;
+   logic [31:0] sprw_inp_a;
+   logic [31:0] sprw_inp_b;
+   
    assign instr = (mp.sprw) ? mp.instr : 32'b00000000_00000000_00000000_00000000;
+
+   // INPUT handling logic
+   always_ff @(posedge clk) begin
+       if(~freeze) begin
+           sprw_a <= a;
+           sprw_b <= b;
+           instr_1 <= instr;
+           instr_2 <= instr_1;
+       end
+   end
+
+   assign sprw_inp_a = (load_mul_rs1_bypass_e1)  ?  lsu_result_dc3 : sprw_a;
+   assign sprw_inp_b = (load_mul_rs2_bypass_e1)  ?  lsu_result_dc3 : sprw_b;
+
 
    sprw_wrapper jack_wrapper (
        .clk(clk & ~freeze),
+       //.clk(clk),
        .rstn(rst_l),
        .holdn(~freeze),
-       .ra(a),
-       .rb(b),
-       .instr(instr),
+       //.holdn(1'b1),
+       .ra(sprw_inp_a),
+       .rb(sprw_inp_b),
+       .instr(instr_2),
        //.bypass(sprw_bypass_e3),
        .sprw_out(sprw_out)
    );
