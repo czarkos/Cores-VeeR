@@ -3,7 +3,7 @@
 //#include "variables.h"
 
 #define N 8
-#define P_INPUT 1
+//#define P_INPUT 1
 #define P_OUTPUT 1
 
 #define min(a,b) \
@@ -39,10 +39,10 @@ void product(unsigned char A[N][N], unsigned char B[N][N], unsigned char C[N][N]
                 //puts("Hello Marc!");
                 matA = *((int *) &A[i][k*4]);
                 matB = *((int *) &B[j][k*4]);
-                asm volatile ("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tusdot %0, %1, %2":"=r"(matC):"r"(matA), "r"(matB));
-                printf("matC=%d=0x%x\n", matC, matC);
-                asm volatile ("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tusadd_ %1, %1, %2" :"=r"(sum):"r"(sum), "r"(matC));
-                printf("sum=%d=0x%x\n", sum, sum);
+                asm("usdot %0, %1, %2":"=r"(matC):"r"(matA), "r"(matB));
+                //printf("matC=%d=0x%x\n", matC, matC);
+                asm("usadd_ %1, %1, %2" :"=r"(sum):"r"(sum), "r"(matC));
+                //printf("sum=%d=0x%x\n", sum, sum);
                 //printf("matC=%d=0x%x\n", matC, matC);
             }
 

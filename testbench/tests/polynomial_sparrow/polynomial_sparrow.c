@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "variables.h"
 
-#define N 16 
+#define N 16
 #define P_INPUT 1
 #define P_OUTPUT 1
 
@@ -28,11 +28,11 @@ void equation(char X[N], char Y[N]){
     int x, y;
     for (int i = 0; i<N; i+=4){
         x = *((int *) &X[i]);
-        printf("x=0x%x\n", x);
-        asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tmul_ %0, %1, %2" : "=r"(y) : "r"(x), "r"(A));  //a*x
-        asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tsadd_ %0, %1, %2" : "=r"(y) : "r"(y), "r"(B)); //a*x + b
-        asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tmul_ %0, %1, %2" : "=r"(y) : "r"(y), "r"(x)); //(a*x + b)*x
-        asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tssub_ %0, %1, %2" : "=r"(y) : "r"(y), "r"(C)); //(a*x + b)*x + c
+        //printf("x=0x%x\n", x);
+        asm("mul_ %0, %1, %2" : "=r"(y) : "r"(x), "r"(A));  //a*x
+        asm("add_ %0, %1, %2" : "=r"(y) : "r"(y), "r"(B)); //a*x + b
+        asm("mul_ %0, %1, %2" : "=r"(y) : "r"(y), "r"(x)); //(a*x + b)*x
+        asm("sub_ %0, %1, %2" : "=r"(y) : "r"(y), "r"(C)); //(a*x + b)*x + c
 
         int *intpointer = ((int *) &Y[i]);
         *intpointer = y;

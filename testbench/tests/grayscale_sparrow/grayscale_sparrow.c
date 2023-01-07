@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "arrays.h"
 
-#define N 8
+#define N 16
 //#define P_INPUT
 #define P_OUTPUT
 
@@ -19,6 +19,7 @@ void grayscale( unsigned char src[N][4][N], unsigned int dst[N][N/4]){
 			r = *((int *) &src[i][0][j]);
 			g = *((int *) &src[i][1][j]);
 			b = *((int *) &src[i][2][j]);
+            /*
             //printf("r=%x, g=%x, b=%x\n", r, g, b);
 			asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tshft_ %0, %1, %2" : "=r"(r) : "r"(r), "r"(shift));
 			//asm("scrwr %0"::"r"(scr));
@@ -28,6 +29,14 @@ void grayscale( unsigned char src[N][4][N], unsigned int dst[N][N/4]){
 			asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tusadd_ %0, %1, %2" : "=r"(gray) : "r"(r), "r"(g));
             //printf("gray=%x\n", gray);
 			asm("nop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tnop\n\tusadd_ %0, %1, %2" : "=r"(gray) : "r"(gray), "r"(b));
+			asm("nop");
+            */
+
+			asm("shft_ %0, %1, %2" : "=r"(r) : "r"(r), "r"(shift));
+			asm("shft_ %0, %1, %2" : "=r"(g) : "r"(g), "r"(shift));
+			asm("shft_ %0, %1, %2" : "=r"(b) : "r"(b), "r"(shift));
+			asm("usadd_ %0, %1, %2" : "=r"(gray) : "r"(r), "r"(g));
+			asm("usadd_ %0, %1, %2" : "=r"(gray) : "r"(gray), "r"(b));
 			asm("nop");
             //printf("gray=%x\n", gray);
 			dst[i][j/4]=gray;

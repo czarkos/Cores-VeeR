@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "arrays.h"
 
-#define N 8
+#define N 16
 //#define P_INPUT
 #define P_OUTPUT
 
