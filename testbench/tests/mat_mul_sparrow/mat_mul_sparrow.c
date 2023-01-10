@@ -2,7 +2,7 @@
 #include <stdlib.h>
 //#include "variables.h"
 
-#define N 8
+#define N 32
 //#define P_INPUT 1
 #define P_OUTPUT 1
 
@@ -39,13 +39,20 @@ void product(unsigned char A[N][N], unsigned char B[N][N], unsigned char C[N][N]
                 //puts("Hello Marc!");
                 matA = *((int *) &A[i][k*4]);
                 matB = *((int *) &B[j][k*4]);
+                //asm("dot %0, %1, %2":"=r"(matC):"r"(matA), "r"(matB));
+                //printf("matC=%d=0x%x\n", matC, matC);
                 asm("usdot %0, %1, %2":"=r"(matC):"r"(matA), "r"(matB));
                 //printf("matC=%d=0x%x\n", matC, matC);
+                //printf("matC=%d=0x%x\n", matC, matC);
                 asm("usadd_ %1, %1, %2" :"=r"(sum):"r"(sum), "r"(matC));
+                //asm("usadd_ %1, %1, %2" :"=r"(sum):"r"(sum), "r"(matC));
                 //printf("sum=%d=0x%x\n", sum, sum);
                 //printf("matC=%d=0x%x\n", matC, matC);
             }
-
+            
+            
+            //printf("matC=%d=0x%x\n", matC, matC);
+            //printf("sum=%d\n", sum);
             C[i][j] = sum;
             sum = 0;
             //printf("matA=%d=0x%x\n", matA, matA);

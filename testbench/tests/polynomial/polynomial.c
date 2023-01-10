@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "variables.h"
 
-#define N 4 
+#define N 32
 #define P_INPUT 1
 #define P_OUTPUT 1
 

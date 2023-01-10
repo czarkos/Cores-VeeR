@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "arrays.h"
 
-#define N 16
+#define N 8
 //#define P_INPUT
 #define P_OUTPUT
 
@@ -37,7 +37,7 @@ void grayscale( unsigned char src[N][4][N], unsigned int dst[N][N/4]){
 			asm("shft_ %0, %1, %2" : "=r"(b) : "r"(b), "r"(shift));
 			asm("usadd_ %0, %1, %2" : "=r"(gray) : "r"(r), "r"(g));
 			asm("usadd_ %0, %1, %2" : "=r"(gray) : "r"(gray), "r"(b));
-			asm("nop");
+			//asm("nop");
             //printf("gray=%x\n", gray);
 			dst[i][j/4]=gray;
 		}
