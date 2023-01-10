@@ -234,21 +234,27 @@ module sprw_module(
 
     //TODO: make signed sat and unsigned_sat so that the add and sub work
     function high_prec_component add(input vector_component a, b, logic sign, sat);
-        integer z = int'(signed'(a)) + int'(signed'(b));
-        assert(z > -512); assert(z < 512);
-        if (sign == 1)
+        //assert(z > -512); assert(z < 512);
+        if (sign == 1) begin
+            integer z = int'(signed'(a)) + int'(signed'(b));
             return signed_sat16(z, sat);
-        else
+        end
+        else begin
+            integer z = int'(a) + int'(b);
             return unsigned_sat16(z, sat);
+        end
     endfunction : add
 
     function high_prec_component sub(input vector_component a, b, logic sign, sat);
-        integer z = int'(signed'(a)) - int'(signed'(b));
-        assert(z > -512); assert(z < 512);
-        if (sign == 1)
+        //assert(z > -512); assert(z < 512);
+        if (sign == 1) begin
+            integer z = int'(signed'(a)) - int'(signed'(b));
             return signed_sat16(z, sat);
-        else
+        end
+        else begin
+            integer z = int'(a) - int'(b);
             return unsigned_sat16(z, sat);
+        end
     endfunction : sub
 
     // max function
