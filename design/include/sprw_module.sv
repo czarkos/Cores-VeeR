@@ -302,9 +302,9 @@ module sprw_module(
             3'b111: z = a & b;
             3'b000: z = a | b;
             3'b001: z = a ^ b;
-            3'b010: z = a ~& b;
-            3'b011: z = a ~| b;
-            3'b100: z = a ~^ b;
+            3'b010: z = ~(a & b);
+            3'b011: z = ~(a | b);
+            3'b100: z = ~(a ^ b);
             default: z = 8'b0000_0000;
         endcase
         return z;
