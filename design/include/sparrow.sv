@@ -41,7 +41,7 @@ package sparrow;
 
    // swizzling registers (reordering)
    typedef integer log_length;  // TODO: add assertion to check the range later
-   typedef log_length [(XLEN/VLEN)-1:0] swizzling_reg_type;
+   typedef logic [(XLEN/VLEN)-1:0] swizzling_reg_type;
 
    typedef struct packed {
        mask_reg_type mk;        // mask value 
