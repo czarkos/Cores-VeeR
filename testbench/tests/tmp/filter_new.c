@@ -3,7 +3,7 @@
 #include <stdlib.h>
 //#include "arrays.h"
 
-#define N 4
+#define N 16
 #define P_OUTPUT
 
 
@@ -38,8 +38,8 @@ void filter(unsigned char src[N+4][N+4], unsigned char dst[N][N]){
                     if (imageY < 2 || imageY >= N+2) continue;
                     else if (imageX < 2 || imageX >= N+2) continue;
                     char filt = f[k][l];
-                    //ret += ((int)src[imageY][imageX]>>1)*f[k][l];
-                    ret += ((int)src[imageY][imageX])*f[k][l];
+                    ret += ((int)src[imageY][imageX]>>1)*f[k][l];
+                    //ret += ((int)src[imageY][imageX])*f[k][l];
                 }
             //if(ret > 127)
             //    ret = 127;

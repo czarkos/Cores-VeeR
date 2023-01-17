@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-//#include "variables.h"
+#include "variables.h"
 
-#define N 16
-#define P_INPUT 1
-#define P_OUTPUT 1
+//#define N 16
+//#define P_INPUT 1
+//#define P_OUTPUT 1
 
 #define min(a,b) \
    ({ __typeof__ (a) _a = (a); \
@@ -16,13 +16,17 @@
 #define N 4
 #endif
 
-//#define A 1 //3 imm -> 0b00001 imm = imm(4)(-) 2^(1+imm(3-1))+imm(0) = 2^1+1 = 3
-//#define B 5 
-//#define C 15 //-15 use sub instead
+//#define A 0x3 //3 imm -> 0b00001 imm = imm(4)(-) 2^(1+imm(3-1))+imm(0) = 2^1+1 = 3
+//#define B 0x5 
+//#define C 0xF //-15 use sub instead
 
 int A = 0x03030303;
 int B = 0x05050505;
 int C = 0x0F0F0F0F;
+
+//register int A = 0x03030303;
+//register int B = 0x05050505;
+//register int C = 0x0F0F0F0F;
 
 void equation(char X[N], char Y[N]){
     int x, y;
@@ -52,13 +56,17 @@ void print(char array[N]){
 
 int main()
 {
+    int a = 0;
     char X[N], Y[N];
     srand(N);
     init(X);
     #ifdef P_INPUT
     print(X);
     #endif
+    // these two instructions are here to find were to start counting the cycles
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
     equation(X,Y);
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
     #ifdef P_OUTPUT
     print(Y);
     #endif

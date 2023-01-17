@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "variables.h"
+#include "variables.h"
 
-#define N 32
+//#define N 32
 //#define P_INPUT 1
-#define P_OUTPUT 1
+//#define P_OUTPUT 1
 
 #define min(a,b) \
    ({ __typeof__ (a) _a = (a); \
@@ -73,13 +73,17 @@ void init(unsigned char A[N][N], unsigned char B[N][N]){
         }
 }
 
+unsigned char A[N][N], B[N][N], C[N][N], D[N][N];
 int main()
 {
-	unsigned char A[N][N], B[N][N], C[N][N], D[N][N];
+    int a = 0;
 	//srand(N);
 	init(A,B);
 	puts("MULT SIMD BEGIN");
+    // these two instructions are here to find were to start counting the cycles
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
 	product(A,B,C);
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
 	puts("MULT SIMD END");
     #ifdef P_INPUT
 	print('A',A);

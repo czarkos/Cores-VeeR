@@ -1,26 +1,21 @@
 #include <stdio.h>
-//#include "variables.h"
+#include "variables.h"
 #include <stdlib.h>
+
 //#include "arrays.h"
 
-#define N 32
+//#define N 32
 //#define P_INPUT
-#define P_OUTPUT
+//#define P_OUTPUT
 
 void grayscale(unsigned char src[N][4][N], unsigned char dst[N][N]){
 	unsigned char color;
     int r, g, b;
+    int shift = 2;
 	for (int i = 0; i<N; i++)
 		for (int j = 0; j<N; j++){
-            //r = src[i][0][j];
-            //g = src[i][1][j];
-            //b = src[i][2][j];
-            //printf("before: r=%d, g=%d, b=%d\n", r, g, b);
-            //r = src[i][0][j]>>2;
-            //g = src[i][1][j]>>2;
-            //b = src[i][2][j]>>2;
-            //printf("after: r=%d, g=%d, b=%d\n", r, g, b);
-			dst[i][j] = (src[i][0][j]>>2) + (src[i][1][j]>>2) + (src[i][2][j]>>2);
+			//dst[i][j] = (src[i][0][j]>>2) + (src[i][1][j]>>2) + (src[i][2][j]>>2);
+			dst[i][j] = (src[i][0][j]>>shift) + (src[i][1][j]>>shift) + (src[i][2][j]>>shift);
 		}
 }
 
@@ -57,12 +52,20 @@ void init(unsigned char A[N][4][N]){
 		}
 }
 
+unsigned char source[N][4][N];// = {IMAGE_ARRAY};
 int main(){
-	unsigned char source[N][4][N];// = {IMAGE_ARRAY};
+    int a = 0;
+    //clock_t start_t, end_t;
 	unsigned char dest[N][N];
 	init(source);
 	puts("GRAY BEGIN");
+    // these two instructions are here to find were to start counting the cycles
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
+    //start_t = clock();
 	grayscale(source, dest);
+    //end_t = clock();
+    //printf("cycles=%lu", end_t-start_t);
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
 	puts("GRAY END");
 #ifdef P_INPUT
 	print_in(source);

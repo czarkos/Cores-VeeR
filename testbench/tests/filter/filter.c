@@ -1,10 +1,10 @@
 #include <stdio.h>
-//#include "variables.h"
+#include "variables.h"
 #include <stdlib.h>
 //#include "arrays.h"
 
-#define N 8
-#define P_OUTPUT
+//#define N 32
+//#define P_OUTPUT
 
 
 #define min(a,b) \
@@ -73,19 +73,23 @@ void init(unsigned char A[N][N]){
 	    for(int j=0; j<N; j++) {
 	        previous = previous*48271U;
 	        A[i][j] = previous%7; //rand()%10
-            printf("A[%d][%d]=%d ", i, j, A[i][j]);
+            //printf("A[%d][%d]=%d ", i, j, A[i][j]);
         }
-        printf("\n");
+        //printf("\n");
     }
 }
 
+unsigned char source[N][N]; //= {GRAY_ARRAY};
 int main(){
-    unsigned char source[N][N]; //= {GRAY_ARRAY};
+    int a = 0;
     unsigned char dest[N][N];
     init(source);
     //print(source);
     puts("FILTER BEGIN");
+    // these two instructions are here to find were to start counting the cycles
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
     filter(source, dest);
+    asm("add_ %0, %1, %2" : "=r"(a) : "r"(a), "r"(a)); //a*x + b
     puts("FILTER END");
     #ifdef P_OUTPUT
     print(dest);
