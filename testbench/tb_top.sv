@@ -320,17 +320,17 @@ module tb_top;
     assign WriteData = lmem.WriteData;
     assign mailbox_data_val = WriteData[7:0] > 8'h5 && WriteData[7:0] < 8'h7f;
 
-    parameter MAX_CYCLES = 10_000_000;
+    //parameter MAX_CYCLES = 100_000_000;
 
     integer fd, tp, el;
 
     always @(negedge core_clk) begin
         cycleCnt <= cycleCnt+1;
         // Test timeout monitor
-        if(cycleCnt == MAX_CYCLES) begin
-            $display ("Hit max cycle count (%0d) .. stopping",cycleCnt);
-            $finish;
-        end
+        //if(cycleCnt == MAX_CYCLES) begin
+        //    $display ("Hit max cycle count (%0d) .. stopping",cycleCnt);
+        //    $finish;
+        //end
         // cansol Monitor
         if( mailbox_data_val & mailbox_write) begin
             $fwrite(fd,"%c", WriteData[7:0]);
@@ -359,7 +359,7 @@ module tb_top;
            $fwrite(tp,"%b,%h,%h,%0h,%0h,3,%b,%h,%h,%b\n", trace_rv_i_valid_ip, trace_rv_i_address_ip[63:32], trace_rv_i_address_ip[31:0],
                   trace_rv_i_insn_ip[63:32], trace_rv_i_insn_ip[31:0],trace_rv_i_exception_ip,trace_rv_i_ecause_ip,
                   trace_rv_i_tval_ip,trace_rv_i_interrupt_ip);
-           // Basic trace - no exception register updates
+           //Basic trace - no exception register updates
            // #1 0 ee000000 b0201073 c 0b02       00000000
            for (int i=0; i<2; i++)
                if (trace_rv_i_valid_ip[i]==1) begin
