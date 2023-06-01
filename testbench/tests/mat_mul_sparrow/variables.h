@@ -1,1 +1,1 @@
-#define N 128
+#define N 4

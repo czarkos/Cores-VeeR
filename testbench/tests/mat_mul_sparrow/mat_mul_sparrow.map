@@ -1,7 +1,7 @@
 
 Discarded input sections
 
- .llvm_addrsig  0x0000000000000000        0x7 mat_mul_sparrow.o
+ .llvm_addrsig  0x0000000000000000        0x8 mat_mul_sparrow.o
  .llvm_addrsig  0x0000000000000000        0x7 printf.o
 
 Memory Configuration
@@ -30,13 +30,13 @@ LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/rv32im/ilp32/libgcc.a
                 0x0000000000000000                _start
                 0x0000000000000016                _finish
  *fill*         0x0000000000000044        0x0 
- .text          0x0000000000000044      0x38e mat_mul_sparrow.o
+ .text          0x0000000000000044      0x390 mat_mul_sparrow.o
                 0x0000000000000044                __bcc_init70
                 0x0000000000000066                print
-                0x0000000000000146                product
-                0x000000000000025c                init
-                0x000000000000035e                main
- *fill*         0x00000000000003d2        0x2 
+                0x0000000000000142                product
+                0x0000000000000254                init
+                0x0000000000000352                main
+ *fill*         0x00000000000003d4        0x0 
  .text          0x00000000000003d4      0x8a8 printf.o
                 0x00000000000003d4                whisperPrintfImpl
                 0x0000000000000b46                whisperPrintf
@@ -61,13 +61,13 @@ LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/rv32im/ilp32/libgcc.a
  .rela.text.init
                 0x00000000000100ac        0x0 crt0.o
 
-.bss            0x00000000000100ab    0x10000
+.bss            0x00000000000100ab       0x40
  *(.bss)
- .bss           0x00000000000100ab    0x10000 mat_mul_sparrow.o
+ .bss           0x00000000000100ab       0x40 mat_mul_sparrow.o
                 0x00000000000100ab                A
-                0x00000000000140ab                B
-                0x00000000000180ab                C
-                0x000000000001c0ab                D
+                0x00000000000100bb                B
+                0x00000000000100cb                C
+                0x00000000000100db                D
                 0x00000000d0580000                . = 0xd0580000
 
 .data.io        0x00000000d0580000        0x4

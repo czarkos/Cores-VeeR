@@ -4,7 +4,7 @@
 
 //#define N 32
 //#define P_INPUT 1
-//#define P_OUTPUT 1
+#define P_OUTPUT 1
 
 #define min(a,b) \
    ({ __typeof__ (a) _a = (a); \
