@@ -235,12 +235,15 @@ module sprw_module(
     //TODO: make signed sat and unsigned_sat so that the add and sub work
     function high_prec_component add(input vector_component a, b, logic sign, sat);
         //assert(z > -512); assert(z < 512);
+        integer z;
         if (sign == 1) begin
-            integer z = int'(signed'(a)) + int'(signed'(b));
+            //z = int'(signed'(a)) + int'(signed'(b));
+            z = $signed(a) + $signed(b);
             return signed_sat16(z, sat);
         end
         else begin
-            integer z = int'(a) + int'(b);
+            //z = int'(a) + int'(b);
+            z = $unsigned(a) + $unsigned(b);
             return unsigned_sat16(z, sat);
         end
     endfunction : add
@@ -302,9 +305,12 @@ module sprw_module(
             3'b111: z = a & b;
             3'b000: z = a | b;
             3'b001: z = a ^ b;
-            3'b010: z = a ~& b;
-            3'b011: z = a ~| b;
-            3'b100: z = a ~^ b;
+            //3'b010: z = a ~& b;
+            3'b010: z = ~(a & b);
+            //3'b011: z = a ~| b;
+            3'b011: z = ~(a | b);
+	    //3'b100: z = a ~^ b;
+            3'b100: z = ~(a ^ b);
             default: z = 8'b0000_0000;
         endcase
         return z;
@@ -436,7 +442,7 @@ module sprw_module(
             end
         end
 
-        return unsigned_sat32(acc, 0'b0);
+        return unsigned_sat32(acc, 1'b0);
     endfunction : max_red
 
     // min recursive function
@@ -457,7 +463,7 @@ module sprw_module(
             end
         end
 
-        return unsigned_sat32(acc, 0'b0);
+        return unsigned_sat32(acc, 1'b0);
     endfunction : min_red
 
     function word xor_red(inter_reg_type a);
@@ -586,7 +592,7 @@ module sprw_module(
             max_res[i]   = max(rs1[i], rs2[i], sign);
             min_res[i]   = min(rs1[i], rs2[i], sign);
             shift_res[i] = shift(rs1[i], rs2[i], r.rdh[i], r.s1.op1[3], sdi.ctrl.hp);
-            logic_res[i] = extend(logic_op(rs1[i], rs2[i], r.s1.op1[2:0]), 0'b0);
+            logic_res[i] = extend(logic_op(rs1[i], rs2[i], r.s1.op1[2:0]), 1'b0);
             s1_ra[i]     = extend(r.s1.ra[i], sign);
             s1_r2[i]     = extend(rs2[i], sign);
         end

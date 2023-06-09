@@ -40,7 +40,8 @@ package sparrow;
    typedef logic [(XLEN/VLEN)-1:0] output_dup_select;
 
    // swizzling registers (reordering)
-   typedef integer log_length;  // TODO: add assertion to check the range later
+   // typedef integer log_length;  // TODO: add assertion to check the range later
+   typedef logic[31:0] log_length;  // TODO: add assertion to check the range later
    typedef log_length [(XLEN/VLEN)-1:0] swizzling_reg_type;
 
    typedef struct packed {

@@ -1,5 +1,8 @@
 +incdir+$RV_ROOT/testbench
 $RV_ROOT/design/veer_wrapper.sv
+$RV_ROOT/design/include/sprw_wrapper.sv
+$RV_ROOT/design/include/sprw_module.sv
+$RV_ROOT/design/include/lpmul.sv
 $RV_ROOT/design/mem.sv
 $RV_ROOT/design/pic_ctrl.sv
 $RV_ROOT/design/veer.sv

@@ -115,7 +115,7 @@ module exu_mul_ctl
 
    // ----------------------- E3 Logic Stage -------------------------
 
-   assign out[31:0]            = low_e3  ?  prod_e3[31:0]  :  prod_e3[63:32];
+   // assign out[31:0]            = low_e3  ?  prod_e3[31:0]  :  prod_e3[63:32];
 
    // ----------------------- SPARROW integration -------------------------
 
@@ -221,5 +221,6 @@ module exu_mul_ctl
    );
 
    assign out[31:0]            = (sprw_en_e3) ? sprw_out : ((low_e3)  ?  prod_e3[31:0]  :  prod_e3[63:32]);
+   //assign out[31:0]            = low_e3  ?  prod_e3[31:0]  :  prod_e3[63:32];
 
 endmodule // exu_mul_ctl
