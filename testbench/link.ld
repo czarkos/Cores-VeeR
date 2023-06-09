@@ -2,14 +2,13 @@
 OUTPUT_ARCH( "riscv" )
 ENTRY(_start)
 
-SECTIONS
-{
-    . = 0;
+SECTIONS {
   .text   : { *(.text*) }
  _end = .;
-  . = 0x10000;
-  .data  :  ALIGN(0x800) { *(.*data) *(.rodata*) STACK = ALIGN(16) + 0xc000; }
-  .bss : { *(.bss) }
   . = 0xd0580000;
   .data.io   : { *(.data.io) }
+  . = 0xf0080000;
+  .data  :  { *(.*data) *(.rodata*) *(.*bss) STACK = ALIGN(16) + 0x8000;}
+  . = 0xfffffff8;
+  .data.ctl : { LONG(0xf0080000); LONG(STACK) }
 }
