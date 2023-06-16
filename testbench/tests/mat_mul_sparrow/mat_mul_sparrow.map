@@ -1,0 +1,98 @@
+
+Discarded input sections
+
+ .llvm_addrsig  0x0000000000000000        0x8 mat_mul_sparrow.o
+ .llvm_addrsig  0x0000000000000000        0x7 printf.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/rv32im/ilp32/libgcc.a
+LOAD crt0.o
+LOAD mat_mul_sparrow.o
+LOAD printf.o
+LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/rv32im/ilp32/libgcc.a
+START GROUP
+LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/../../../../riscv64-unknown-elf/lib/rv32im/ilp32/libc.a
+LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/../../../../riscv64-unknown-elf/lib/rv32im/ilp32/libgloss.a
+END GROUP
+LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/12.2.0/rv32im/ilp32/libgcc.a
+
+.text           0x0000000000000000      0xc92
+ *(.text*)
+ .text          0x0000000000000000        0x0 crt0.o
+ .text.init     0x0000000000000000       0x44 crt0.o
+                0x0000000000000000                _start
+                0x0000000000000016                _finish
+ *fill*         0x0000000000000044        0x0 
+ .text          0x0000000000000044      0x3a2 mat_mul_sparrow.o
+                0x0000000000000044                __bcc_init70
+                0x0000000000000066                print
+                0x000000000000014a                product
+                0x000000000000025c                init
+                0x000000000000035a                main
+ *fill*         0x00000000000003e6        0x2 
+ .text          0x00000000000003e8      0x8aa printf.o
+                0x00000000000003e8                whisperPrintfImpl
+                0x0000000000000b5c                whisperPrintf
+                0x0000000000000b9c                putchar
+                0x0000000000000bb6                putc
+                0x0000000000000bd4                puts
+                0x0000000000000bee                printf
+                0x0000000000000c30                get_mcycle
+                0x0000000000000c92                _end = .
+                0x00000000d0580000                . = 0xd0580000
+
+.data.io        0x00000000d0580000        0x4
+ *(.data.io)
+ .data.io       0x00000000d0580000        0x4 crt0.o
+                0x00000000d0580000                tohost
+                0x00000000f0040000                . = 0xf0040000
+
+.data           0x00000000f0040000       0xeb
+ *(.*data)
+ .rodata        0x00000000f0040000       0x84 printf.o
+ *(.rodata*)
+ .rodata.str1.1
+                0x00000000f0040084       0x27 mat_mul_sparrow.o
+                                         0x29 (size before relaxing)
+ *(.*bss)
+ .bss           0x00000000f00400ab       0x40 mat_mul_sparrow.o
+                0x00000000f00400ab                A
+                0x00000000f00400bb                B
+                0x00000000f00400cb                C
+                0x00000000f00400db                D
+                0x00000000f00410f0                STACK = (ALIGN (0x10) + 0x1000)
+                0x00000000fffffff8                . = 0xfffffff8
+
+.data.ctl       0x00000000fffffff8        0x8
+                0x00000000fffffff8        0x4 LONG 0xf0040000
+                0x00000000fffffffc        0x4 LONG 0xf00410f0 STACK
+OUTPUT(mat_mul_sparrow.exe elf32-littleriscv)
+
+.rela.dyn       0x0000000100000000        0x0
+ .rela.text.init
+                0x0000000100000000        0x0 crt0.o
+
+.comment        0x0000000000000000       0x70
+ .comment       0x0000000000000000       0x70 mat_mul_sparrow.o
+                                         0x71 (size before relaxing)
+ .comment       0x0000000000000070       0x71 printf.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 mat_mul_sparrow.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 printf.o
+
+.riscv.attributes
+                0x0000000000000000       0x2b
+ .riscv.attributes
+                0x0000000000000000       0x2b mat_mul_sparrow.o
+ .riscv.attributes
+                0x000000000000002b       0x2b printf.o
